@@ -1,0 +1,21 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "5b5e42c6ede49c38d9e9eb6a3b27fb285e9648eb61916f5c657fc8507c619803"
+        },
+        "requires": {},
+        "sources": [
+            {
+                "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "openhtf": {
+            "git": "https://github.com/google/openhtf.git",
+            "ref": "0908920c8d"
+        }
+    },
+    "develop": {}
+}
