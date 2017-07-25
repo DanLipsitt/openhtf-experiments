@@ -5,6 +5,9 @@ verify_ssl = true
 [dev-packages]
 tox = "*"
 
+[dev-packages.tox-run-command]
+git = "https://github.com/dstanek/tox-run-command.git"
+
 [packages.openhtf]
 git = "https://github.com/google/openhtf.git"
 ref = "0908920c8d"

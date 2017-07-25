@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6d9144eb7899c73fe57a94e0b5d652411b93fad7cf804cec1b86c6a9b6a770b2"
+            "sha256": "e6e3800391c7fa5df92662ab4be2de2badaeccfde2c4afd33d2472f118d8c01f"
         },
         "requires": {},
         "sources": [
@@ -26,6 +26,9 @@
         },
         "tox": {
             "version": "==2.7.0"
+        },
+        "tox-run-command": {
+            "git": "https://github.com/dstanek/tox-run-command.git"
         },
         "virtualenv": {
             "version": "==15.1.0"
