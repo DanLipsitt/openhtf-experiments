@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5b5e42c6ede49c38d9e9eb6a3b27fb285e9648eb61916f5c657fc8507c619803"
+            "sha256": "6d9144eb7899c73fe57a94e0b5d652411b93fad7cf804cec1b86c6a9b6a770b2"
         },
         "requires": {},
         "sources": [
@@ -17,5 +17,18 @@
             "ref": "0908920c8d"
         }
     },
-    "develop": {}
+    "develop": {
+        "pluggy": {
+            "version": "==0.4.0"
+        },
+        "py": {
+            "version": "==1.4.34"
+        },
+        "tox": {
+            "version": "==2.7.0"
+        },
+        "virtualenv": {
+            "version": "==15.1.0"
+        }
+    }
 }
