@@ -13,6 +13,8 @@ def phase2(test):
 if __name__ == '__main__':
     import sys
 
+    htf.conf.load(capture_source=True)
+
     test = htf.Test(
         phase1,
         phase2,
