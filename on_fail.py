@@ -1,14 +1,9 @@
 from __future__ import print_function
 import openhtf as htf
-from openhtf.core.measurements import Outcome
 from openhtf.output.callbacks import json_factory
+from openhtf.core.measurements import Outcome
 from contextlib import contextmanager
-
-
-def is_fail(test, name):
-    """Return whether the given measurement validated with a FAIL outcome."""
-    return test.measurements._measurements[name].outcome == Outcome.FAIL
-
+from util import is_fail
 
 def phase1(test):
     print('phase1 (pass)')
@@ -20,9 +15,12 @@ def phase1(test):
 )
 def phase2(test):
     print('phase 2 (fail)')
+    # Pass at first.
     test.measurements.val1 = 1
     if is_fail(test, 'val1'):
         return htf.PhaseResult.STOP
+    # Same test as is_fail, run manually.
+    # Fail this time.
     test.measurements.val2 = -1
     if test.measurements._measurements['val2'].outcome == Outcome.FAIL:
         return htf.PhaseResult.STOP
