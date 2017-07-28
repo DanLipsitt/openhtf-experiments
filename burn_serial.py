@@ -46,17 +46,18 @@ def scan_serial(test, prompts):
 
 
 @htf.plug(platform=PlatformSSH)
-@htf.measures(htf.Measurement('serial').matches_regex(r'\d{4}'))
+@htf.measures(
+    htf.Measurement('serial').matches_regex(r'\d{4}'),
+    htf.Measurement('serials_match').equals(True),
+)
 def burn_serial(test, platform):
     """Burn the new serial onto the DUT and verify that it can be read."""
     scanned_serial = test.test_record.phases[-1].measurements['scanned_serial'].measured_value
     platform.set_serial(scanned_serial)
     serial = platform.get_serial()
     test.measurements.serial = serial
-    # haven't a way to do this using validators yet...
-    if serial != scanned_serial:
-        test.logger.warning(
-            'Fail: serial {} does not equal scanned serial {}'.format(serial, scanned_serial))
+    test.measurements.serials_match = serial == scanned_serial
+    if is_fail(test, 'serials_match'):
         return htf.PhaseResult.STOP
 
 
