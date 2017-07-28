@@ -11,7 +11,7 @@ Real-ish scenario:
 from __future__ import print_function
 import openhtf as htf
 from openhtf.plugs import user_input
-from openhtf.output.callbacks import json_factory
+from openhtf.output.callbacks import json_factory, console_summary
 from util import is_fail
 
 
@@ -63,6 +63,7 @@ def burn_serial(test, platform):
 
 if __name__ == '__main__':
     import sys
+    from openhtf.core import test_record
 
     test = htf.Test(
         assert_blank_serial,
@@ -71,6 +72,11 @@ if __name__ == '__main__':
         test_name='simulated serial check'
     )
 
-    test.add_output_callbacks(json_factory.OutputToJSON(sys.stdout, indent=4))
+    # Temporary patch: Add color for missing ABORT outcome
+    console_output = console_summary.ConsoleSummary()
+    console_output.color_table[test_record.Outcome.ABORTED] = console_output.RED
+
+    test.add_output_callbacks(json_factory.OutputToJSON('burn_serial.json'),
+                              console_output)
 
     test.execute(test_start=lambda: 'dut')
