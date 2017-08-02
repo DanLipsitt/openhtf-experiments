@@ -5,7 +5,7 @@ import re
 import openhtf as htf
 from openhtf.plugs import user_input
 from openhtf.output.callbacks import json_factory, console_summary
-from openhtf.util.validators import register, ValidatorBase, RegexMatcher
+from openhtf.util.validators import register, RegexMatcher
 from util import is_fail, get_measurement
 
 
@@ -15,9 +15,12 @@ class SerialValidator(RegexMatcher):
         super(SerialValidator, self).__init__(regex, re.compile(regex))
 
     def __str__(self):
+        # Shown in output.
         return 'Value must consist of four characters.'
 
     def __deepcopy__(self, dummy_memo):
+        # This method required by the validator spec. We can abstract this away
+        # later.
         return type(self)()
 
 
