@@ -1,14 +1,46 @@
 """OpenHTF demonstrations."""
 
 from __future__ import print_function
+import re
 import openhtf as htf
 from openhtf.plugs import user_input
 from openhtf.output.callbacks import json_factory, console_summary
+from openhtf.util.validators import register, ValidatorBase, RegexMatcher
 from util import is_fail, get_measurement
 
 
+class SerialValidator(RegexMatcher):
+    def __init__(self):
+        regex = r'\w{4}'
+        super(SerialValidator, self).__init__(regex, re.compile(regex))
+
+    def __str__(self):
+        return 'Value must consist of four characters.'
+
+    def __deepcopy__(self, dummy_memo):
+        return type(self)()
+
+
+register(SerialValidator, name='valid_serial')
+
+
+class NumericSerialValidator(RegexMatcher):
+    def __init__(self):
+        regex = r'\d{4}'
+        super(NumericSerialValidator, self).__init__(regex, re.compile(regex))
+
+    def __str__(self):
+        return 'Value must consist of four digits.'
+
+    def __deepcopy__(self, dummy_memo):
+        return type(self)()
+
+
+register(NumericSerialValidator, name='valid_numeric_serial')
+
+
 @htf.plug(prompts=user_input.UserInput)
-@htf.measures(htf.Measurement('scanned_serial').matches_regex(r'\d{4}'))
+@htf.measures(htf.Measurement('scanned_serial').valid_serial())
 def scan_serial(test, prompts):
     """Scan in a new serial for the DUT."""
     test.measurements.scanned_serial = prompts.prompt(
@@ -18,7 +50,7 @@ def scan_serial(test, prompts):
         return htf.PhaseResult.REPEAT
 
 
-@htf.measures(htf.Measurement('original_serial').matches_regex(r'\d{4}'))
+@htf.measures(htf.Measurement('original_serial').valid_numeric_serial())
 def get_earlier_measurement(test):
     test.measurements.original_serial = get_measurement(
         test, 'scan_serial', 'scanned_serial')
